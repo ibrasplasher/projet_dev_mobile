@@ -1,0 +1,104 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddTaskActivity">
+
+    <include layout="@layout/appbar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"  >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="107dp"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:text="Ajouter"
+                android:layout_marginStart="20dp"
+                android:layout_weight="1"/>
+
+            <Spinner
+                android:id="@+id/spinner_rond"
+                android:layout_width="142.6dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="102dp"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/border_spinner"
+                android:layout_marginBottom="31dp"
+                />
+
+
+
+        </LinearLayout>
+        <EditText
+
+            android:id="@+id/titreAjout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:hint="Nouvelle tache"
+            android:textColorHint="@color/black"
+            android:padding="10dp"
+            android:background="@drawable/edittext_border"
+            android:layout_marginBottom="26dp"
+
+            />
+        <EditText
+            android:id="@+id/contenuTache"
+            android:layout_width="match_parent"
+            android:layout_height="226dp"
+            android:background="@drawable/edittext_border"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:hint="Description de la tache. on met ici le contenu"
+            android:gravity="top"
+            android:padding="10dp"
+            android:layout_marginBottom="31dp"
+            android:textColorHint="@color/black"
+            android:textSize="14sp"
+            />
+        <Button
+            android:id="@+id/ajouterbtn"
+            android:layout_width="235dp"
+            android:layout_height="wrap_content"
+            android:text="Ajouter"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold"
+            android:background="@drawable/border_button"
+            android:textAllCaps="false"
+
+
+            />
+
+    </LinearLayout>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/vector"
+        android:backgroundTint="@color/gris2"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:id="@+id/returnFAB"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"/>
+
+</RelativeLayout>

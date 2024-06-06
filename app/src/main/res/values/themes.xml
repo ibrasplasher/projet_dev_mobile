@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.TodoList" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.TodoList" parent="Base.Theme.TodoList" />
+    <style name="AppToolbarStyle" parent="Widget.AppCompat.Toolbar">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+
+    <style name="FabShapeStyle2" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+
+        <item name="cornerSize">20%</item>
+    </style>
+
+</resources>

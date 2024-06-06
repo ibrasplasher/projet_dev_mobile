@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TodoList</string>
+    <string-array name="status_array">
+        <item>petit_bleu;In Progress</item>
+        <item>petit_vert;Done</item>
+        <item>petit_gris;Todo</item>
+        <item>petit_rouge;Bug</item>
+    </string-array>
+</resources>
