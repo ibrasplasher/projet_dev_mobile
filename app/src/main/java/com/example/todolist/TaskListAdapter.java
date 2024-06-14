@@ -19,117 +19,128 @@ import java.util.ArrayList;
 
 
 
-    public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHolder> {
+public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHolder> {
+    private RecyclerViewInterface recyclerViewInterface;
+    private ArrayList<TaskModel> taskDataset;
+    private ArrayList<TaskModel> completeDataList; // Liste complète des tâches
+    private Context context;
+    private String statutSelectionne;
+    public TaskModel getTaskAt(int position) {
+        return taskDataset.get(position);
+    }
 
-        private RecyclerViewInterface recyclerViewInterface;
-        private ArrayList<TaskModel> taskDataset;
-        private Context context;
+    public TaskListAdapter(Context context, ArrayList<TaskModel> taskDataset, ArrayList<TaskModel> completeDataList, RecyclerViewInterface recyclerViewInterface) {
+        this.taskDataset = taskDataset;
+        this.completeDataList = new ArrayList<>(completeDataList); // Initialisation de completeDataList
+        this.context = context;
+        this.recyclerViewInterface = recyclerViewInterface;
+        this.statutSelectionne = "";
+    }
 
-        /**
-         * Provide a reference to the type of views that you are using
-         * (custom ViewHolder)
-         */
-        public static class ViewHolder extends RecyclerView.ViewHolder {
-            private final TextView taskNameTv, taskStatusTv;
-            private ImageView cercleIv;
-            private MaterialCardView taskCv;
+    public void setStatutSelectionne(String statut) {
+        this.statutSelectionne = statut;
+        notifyDataSetChanged();
+    }
 
+    public void setDataList(ArrayList<TaskModel> newDataList) {
+        this.taskDataset = new ArrayList<>(newDataList);
+        this.completeDataList = new ArrayList<>(newDataList); // Mettez également à jour completeDataList
+        notifyDataSetChanged();
+    }
 
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView taskNameTv, taskStatusTv;
+        private ImageView cercleIv;
+        private MaterialCardView taskCv;
 
-            public ViewHolder(View view, RecyclerViewInterface recyclerViewInterface) {
-                super(view);
-                // Define click listener for the ViewHolder's View
+        public ViewHolder(View view, RecyclerViewInterface recyclerViewInterface) {
+            super(view);
+            taskNameTv = view.findViewById(R.id.taskNameTv);
+            taskStatusTv = view.findViewById(R.id.taskStatusTv);
+            cercleIv = view.findViewById(R.id.cercleIv);
+            taskCv = view.findViewById(R.id.taskCv);
 
-                taskNameTv = (TextView) view.findViewById(R.id.taskNameTv);
-                taskStatusTv = (TextView) view.findViewById(R.id.taskStatusTv);
-                cercleIv = (ImageView)view.findViewById(R.id.cercleIv);
-                taskCv = (MaterialCardView) view.findViewById(R.id.taskCv);
-
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        if (recyclerViewInterface != null) {
-                            int position = getAdapterPosition();
-                            if (position != RecyclerView.NO_POSITION) {
-                                recyclerViewInterface.onItemClick(position);
-                            }
-                        }
+            itemView.setOnClickListener(v -> {
+                if (recyclerViewInterface != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        recyclerViewInterface.onItemClick(position);
                     }
-
-                    });
-
                 }
-
-
-        }
-
-
-        public TaskListAdapter(Context context, ArrayList<TaskModel> taskDataset, RecyclerViewInterface recyclerViewInterface ) {
-            this.taskDataset = taskDataset;
-            this.context = context;
-
-            this.recyclerViewInterface = recyclerViewInterface;
-        }
-
-        // Create new views (invoked by the layout manager)
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-            // Create a new view, which defines the UI of the list item
-            View view = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.item_task, viewGroup, false);
-
-            return new ViewHolder(view, recyclerViewInterface);
-        }
-
-        // Replace the contents of a view (invoked by the layout manager)
-        @Override
-        public void onBindViewHolder(ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
-
-
-
-            // Get element from your dataset at this position and replace the
-            // contents of the view with that element
-            viewHolder.taskNameTv.setText(taskDataset.get(position).getTaskName());
-            viewHolder.taskStatusTv.setText(taskDataset.get(position).getTaskstatus());
-
-
-            String status = taskDataset.get(position).getTaskstatus();
-
-            if (status != null) {
-                String statusLowerCase = status.toLowerCase().replace(" ", "");
-                viewHolder.taskStatusTv.setText(statusLowerCase);
-
-
-            if (status.toLowerCase().replace(" ", "").equals("2")) {
-                viewHolder.cercleIv.setImageResource(R.drawable.gros_cercle);
-                viewHolder.taskCv.setStrokeColor(ContextCompat.getColor(context, R.color.gris2));
-
-
-            } else if (status.toLowerCase().replace(" ", "").equals("1")){
-
-                viewHolder.cercleIv.setImageResource(R.drawable.task_done);
-                viewHolder.taskCv.setStrokeColor(ContextCompat.getColor(context, R.color.vert));
-
-            }else if (status.toLowerCase().replace(" ", "").equals("0")){
-                viewHolder.cercleIv.setImageResource(R.drawable.task_in_progress);
-                viewHolder.taskCv.setStrokeColor(ContextCompat.getColor(context, R.color.bleu));
-
-            }else if (status.toLowerCase().replace(" ", "").equals("3")){
-                viewHolder.cercleIv.setImageResource(R.drawable.task_bug);
-                viewHolder.taskCv.setStrokeColor(ContextCompat.getColor(context, R.color.rouge));
-
-            }
-            }
-        }
-
-
-
-        // Return the size of your dataset (invoked by the layout manager)
-        @Override
-        public int getItemCount() {
-            return taskDataset.size();
+            });
         }
     }
 
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View view = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.item_task, viewGroup, false);
+        return new ViewHolder(view, recyclerViewInterface);
+    }
 
+
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+        TaskModel task = taskDataset.get(position);
+        viewHolder.taskNameTv.setText(task.getTaskName());
+        viewHolder.taskStatusTv.setText(task.getTaskstatus());
+
+        String status = task.getTaskstatus();
+
+        if (status != null) {
+            String statusLowerCase = status.toLowerCase().replace(" ", "");
+            viewHolder.taskStatusTv.setText(statusLowerCase);
+
+            switch (statusLowerCase) {
+                case "2":
+                    viewHolder.cercleIv.setImageResource(R.drawable.gros_cercle);
+                    viewHolder.taskCv.setStrokeColor(ContextCompat.getColor(context, R.color.gris2));
+                    break;
+                case "1":
+                    viewHolder.cercleIv.setImageResource(R.drawable.task_done);
+                    viewHolder.taskCv.setStrokeColor(ContextCompat.getColor(context, R.color.vert));
+                    break;
+                case "0":
+                    viewHolder.cercleIv.setImageResource(R.drawable.task_in_progress);
+                    viewHolder.taskCv.setStrokeColor(ContextCompat.getColor(context, R.color.bleu));
+                    break;
+                case "3":
+                    viewHolder.cercleIv.setImageResource(R.drawable.task_bug);
+                    viewHolder.taskCv.setStrokeColor(ContextCompat.getColor(context, R.color.rouge));
+                    break;
+            }
+        }
+
+        // Gestion du clic sur un élément
+        viewHolder.itemView.setOnClickListener(v -> {
+            if (recyclerViewInterface != null) {
+                recyclerViewInterface.onItemClick(position);
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return taskDataset.size();
+    }
+
+    public void filtrerParStatut(String statut) {
+        ArrayList<TaskModel> filteredList = new ArrayList<>();
+        if (statut.isEmpty()) {
+            filteredList.addAll(completeDataList); // Restaurer la liste complète
+        } else {
+            for (TaskModel task : completeDataList) {
+                if (statut.equals(task.getTaskstatus())) {
+                    filteredList.add(task);
+                }
+            }
+        }
+        setDataList(filteredList);
+    }
+    public void updateTask(int position, TaskModel updatedTask) {
+        if (position >= 0 && position < taskDataset.size()) {
+            taskDataset.set(position, updatedTask);
+            notifyItemChanged(position);
+        }
+    }
+}

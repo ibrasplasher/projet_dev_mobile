@@ -3,17 +3,22 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
+    android:layout_height="85dp"
     android:background="@color/gris1"
     android:id="@+id/myToolBar"
     app:title="Todo App"
     app:titleMarginStart="20sp"
 
-
-
     app:toolbarStyle="@style/AppToolbarStyle"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
 
     >
+    <ImageView
+        android:id="@+id/filtreIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/vector__2_"
+        android:layout_gravity="end"
+        android:layout_marginRight="27.98dp"/>
 
 </androidx.appcompat.widget.Toolbar>

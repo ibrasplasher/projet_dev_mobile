@@ -7,7 +7,11 @@
 
     <style name="Theme.TodoList" parent="Base.Theme.TodoList" />
     <style name="AppToolbarStyle" parent="Widget.AppCompat.Toolbar">
-        <item name="android:textSize">20sp</item>
+        <item name = "android:textSize">20sp</item>
+    </style>
+
+    <style name="Button.White" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">@color/gris2</item>
     </style>
 
 

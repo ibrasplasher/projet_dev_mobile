@@ -82,6 +82,8 @@
             android:layout_gravity="center_horizontal"
             android:textStyle="bold"
             android:background="@drawable/border_button"
+            app:backgroundTint = "@color/gris2"
+
             android:textAllCaps="false"
 
 

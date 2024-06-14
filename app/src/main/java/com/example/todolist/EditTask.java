@@ -3,8 +3,11 @@ package com.example.todolist;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,35 +28,49 @@ public class EditTask extends AppCompatActivity {
     EditText edtcontenuTache;
     Button modifierbtn;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_edit_task2);
-       String name = getIntent().getStringExtra("taskId");
-       String taskName = getIntent().getStringExtra("taskName");
-       String taskstatus = getIntent().getStringExtra("taskstatus");
-       String taskContent = getIntent().getStringExtra("taskContent");
+        ImageView filtreIv = findViewById(R.id.filtreIv);
 
-       edttitreAjout = findViewById(R.id.edttitreAjout);
-       edtcontenuTache = findViewById(R.id.edtcontenuTache);
-       modifierbtn = findViewById(R.id.modifierbtn);
+        // Rendre l'ImageView invisible
+        filtreIv.setVisibility(View.GONE);
+        String taskId = getIntent().getStringExtra("taskId");
+        String taskName = getIntent().getStringExtra("taskName");
+        String taskstatus = getIntent().getStringExtra("taskstatus");
+        String taskContent = getIntent().getStringExtra("taskContent");
 
-       edttitreAjout.setText(taskName);
-       edtcontenuTache.setText(taskContent);
+        Log.d("EditTask", "ID: " + taskId + " Name: " + taskName + " Status: " + taskstatus + " Content: " + taskContent);
+
+        if (taskId == null || taskName == null || taskstatus == null || taskContent == null) {
+            Toast.makeText(this, "Erreur: Une des valeurs de la tâche est null", Toast.LENGTH_SHORT).show();
+            finish(); // Fermer l'activité si les valeurs sont incorrectes
+            return;
+        }
+
+        edttitreAjout = findViewById(R.id.edttitreAjout);
+        edtcontenuTache = findViewById(R.id.edtcontenuTache);
+        modifierbtn = findViewById(R.id.modifierbtn);
+
+        edttitreAjout.setText(taskName);
+        edtcontenuTache.setText(taskContent);
 
         edtspinner_rond = findViewById(R.id.edtspinner_rond);
         adapter = new RondAdapter(EditTask.this, DataSpinner.getRondSpinnerList());
         edtspinner_rond.setAdapter(adapter);
 
-        //if status
-        // Select the correct spinner item based on task status
-        int status = Integer.parseInt(taskstatus);
-        selectSpinnerItemByStatus(status);
+        try {
+            int status = Integer.parseInt(taskstatus);
+            selectSpinnerItemByStatus(status);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Statut de tâche invalide", Toast.LENGTH_SHORT).show();
+        }
 
         modifierbtn.setOnClickListener(v -> {
-            // Handle the modify button click
-            String taskId = getIntent().getStringExtra("taskId");
             String newTitle = edttitreAjout.getText().toString();
             String newContent = edtcontenuTache.getText().toString();
             String newStatus = edtspinner_rond.getSelectedItem().toString();
@@ -64,26 +81,22 @@ public class EditTask extends AppCompatActivity {
                 boolean updated = new DbHelper(EditTask.this).updateTask(taskId, newTitle, newContent, newStatus);
                 if (updated) {
                     Toast.makeText(EditTask.this, "Tâche modifiée avec succès", Toast.LENGTH_SHORT).show();
-                    // Ajoutez ici toute logique supplémentaire après la mise à jour de la tâche, comme retourner à l'activité principale
-
                     Intent resultIntent = new Intent();
+                    resultIntent.putExtra("taskId", taskId);
+                    resultIntent.putExtra("taskName", newTitle);
+                    resultIntent.putExtra("taskContent", newContent);
+                    resultIntent.putExtra("taskStatus", newStatus);
+                    resultIntent.putExtra("taskPosition", getIntent().getIntExtra("taskPosition", -1));
                     setResult(Activity.RESULT_OK, resultIntent);
-
+                    finish(); // Retourner à l'activité principale
                 } else {
                     Toast.makeText(EditTask.this, "Échec de la modification de la tâche", Toast.LENGTH_SHORT).show();
                 }
             }
-
-
         });
 
-
-
-
-
-
-
     }
+
     private void selectSpinnerItemByStatus(int status) {
         switch (status) {
             case 0: // Correspond à "In progress"
