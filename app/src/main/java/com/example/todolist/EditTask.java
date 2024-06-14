@@ -18,6 +18,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.List;
 
 public class EditTask extends AppCompatActivity {
@@ -95,6 +97,15 @@ public class EditTask extends AppCompatActivity {
             }
         });
 
+
+        FloatingActionButton returnTaskFAB = findViewById(R.id.returnFAB);
+        returnTaskFAB.setOnClickListener(v -> {
+            Intent intent = new Intent(EditTask.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        });
+
     }
 
     private void selectSpinnerItemByStatus(int status) {
@@ -116,6 +127,8 @@ public class EditTask extends AppCompatActivity {
                 break;
         }
     }
+
+
 
 
 
