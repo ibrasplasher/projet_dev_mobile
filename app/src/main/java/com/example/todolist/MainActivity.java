@@ -100,10 +100,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                 popupWindow.dismiss();
             }
         });
-        int offsetX = 20; // Décalage par la largeur de l'anchorView
+
 
         // Afficher la PopupWindow en dessous de l'anchorView avec le décalage spécifié
-        popupWindow.showAsDropDown(anchorView, offsetX, 0);
+        popupWindow.showAsDropDown(anchorView, 0, 0, Gravity.BOTTOM);
     }
 
     private void showToast(String message) {
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                 // Vérifiez que les valeurs ne sont pas nulles
                 if (taskId == null || taskName == null || taskStatus == null || taskContent == null) {
                     Log.e("DisplayData", "Une des valeurs de la tâche est null");
-                    continue; // Ignorer cette tâche si une des valeurs est nulle
+                    continue; // on va ignorer si la valeur est nulle
                 }
 
                 TaskModel task = new TaskModel(taskId, taskStatus, taskName, taskContent);
@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     }
     private ArrayList<String> getCurrentFilters() {
         // Retourner la liste des statuts actuellement filtrés
-        // Implement this based on your filter logic
+
         return new ArrayList<>();
     }
 
@@ -213,12 +213,13 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         }
     }
 
-    private void updateTaskInCompleteDataList(String taskId, String newTitle, String newContent, String newStatus) {
+    public void updateTaskInCompleteDataList(String taskId, String newTitle, String newContent, String newStatus) {
         for (TaskModel task : completeDataList) {
             if (task.getTaskId().equals(taskId)) {
                 task.setTaskName(newTitle);
                 task.setTaskContent(newContent);
                 task.setTaskstatus(newStatus);
+                taskListAdapter.notifyDataSetChanged();
                 break;
             }
         }

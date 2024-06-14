@@ -123,7 +123,7 @@ public class EditTask extends AppCompatActivity {
                 edtspinner_rond.setSelection(3); // Sélectionne le quatrième élément (Bug)
                 break;
             default:
-                // Gestion d'une valeur de statut non prévue
+
                 break;
         }
     }

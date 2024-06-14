@@ -84,6 +84,8 @@
             android:background="@drawable/border_button"
             app:backgroundTint = "@color/gris2"
 
+
+
             android:textAllCaps="false"
 
 
@@ -101,6 +103,12 @@
         android:layout_marginEnd="20dp"
         android:id="@+id/returnFAB"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"/>
+        android:layout_alignParentEnd="true"
+        app:tint = "@android:color/white"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.FloatingActionButton"
+
+        />
+
+    />
 
 </RelativeLayout>

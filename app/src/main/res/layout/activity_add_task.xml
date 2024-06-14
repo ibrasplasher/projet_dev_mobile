@@ -92,14 +92,18 @@
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/returnFAB"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:src="@drawable/vector"
-        android:backgroundTint="@color/gris2"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="20dp"
-        android:id="@+id/returnFAB"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"/>
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/vector"
+        android:visibility="visible"
+        app:backgroundTint="@color/gris2"
+        app:tint = "@android:color/white"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.FloatingActionButton" />
+
 
 </RelativeLayout>
